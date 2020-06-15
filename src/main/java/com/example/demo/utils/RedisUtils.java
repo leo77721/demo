@@ -1,14 +1,14 @@
 package com.example.demo.utils;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class RedisUtils {
@@ -122,7 +122,6 @@ public class RedisUtils {
     /**
      * 递增
      * @param key 键
-     * @param by 要增加几(大于0)
      * @return
      */
     public long incr(String key, long delta){
@@ -135,7 +134,6 @@ public class RedisUtils {
     /**
      * 递减
      * @param key 键
-     * @param by 要减少几(小于0)
      * @return
      */
     public long decr(String key, long delta){
@@ -447,7 +445,9 @@ public class RedisUtils {
     public boolean lSet(String key, Object value, long time) {
         try {
             redisTemplate.opsForList().rightPush(key, value);
-            if (time > 0) expire(key, time);
+            if (time > 0) {
+                expire(key, time);
+            }
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -481,7 +481,9 @@ public class RedisUtils {
     public boolean lSet(String key, List<Object> value, long time) {
         try {
             redisTemplate.opsForList().rightPushAll(key, value);
-            if (time > 0) expire(key, time);
+            if (time > 0) {
+                expire(key, time);
+            }
             return true;
         } catch (Exception e) {
             e.printStackTrace();

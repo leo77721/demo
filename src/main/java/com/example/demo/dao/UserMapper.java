@@ -11,7 +11,7 @@ public interface UserMapper {
 
     List<User> queryUsers(Map<String,String> params);
 
-    User findUserById(Integer id);
+    User findUserById(Map<String,Object> params);
 
     int save(User user);
 

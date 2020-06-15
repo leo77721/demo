@@ -1,4 +1,4 @@
-package  com.example.demo.bean;
+package com.example.demo.bean;
 
 import java.io.Serializable;
 
@@ -9,6 +9,8 @@ public class User implements Serializable {
     private String uName;
 
     private Integer uAge;
+
+    private Boolean state;
 
     /**
      * @return the uId
@@ -52,4 +54,11 @@ public class User implements Serializable {
         this.uId = uId;
     }
 
+    public Boolean getState() {
+        return state;
+    }
+
+    public void setState(Boolean state) {
+        this.state = state;
+    }
 }

@@ -9,31 +9,41 @@
         <id column="user_id" property="uId" jdbcType="INTEGER"></id>
         <result column="user_name" property="uName" jdbcType="VARCHAR"></result>
         <result column="user_age" property="uAge" jdbcType="VARCHAR"></result>
+        <result column="state" property="state" jdbcType="BOOLEAN"></result>
     </resultMap>
 
     <sql id="baseColumnList">
         user_id,user_name,user_age
     </sql>
     <insert id="save" parameterType="com.example.demo.bean.User" useGeneratedKeys="true" keyProperty="uId">
-        insert into user (user_name,user_age)
+        insert into user (user_name,user_age,state)
         values (#{uName,jdbcType=VARCHAR},
-        #{uAge,jdbcType=INTEGER})
+        #{uAge,jdbcType=INTEGER},
+        #{state,jdbcType=BOOLEAN})
     </insert>
     <update id="updateById" parameterType="com.example.demo.bean.User">
         update user
         set user_name = #{uName,jdbcType=VARCHAR},
-            user_age = #{uAge,jdbcType=INTEGER}
+            user_age = #{uAge,jdbcType=INTEGER},
+            state = #{state,jdbcType=BOOLEAN}
         where user_id = #{uId,jdbcType=INTEGER}
     </update>
     <delete id="deleteById" parameterType="java.lang.Integer">
         delete from user
         where user_id = #{uId,jdbcType=INTEGER}
     </delete>
-    <select id="findUserById" parameterType="java.lang.Integer" resultMap="baseResultMap">
+    <select id="findUserById" parameterType="java.util.Map" resultMap="baseResultMap">
         select
         <include refid="baseColumnList"></include>
         from user
-        where user_id = #{id}
+        <where>
+            <if test="id != null and id != '' ">
+                and user_id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test=" state != null">
+                and state = #{state,jdbcType=BOOLEAN}
+            </if>
+        </where>
     </select>
     <select id="queryUsers" resultMap="baseResultMap" parameterType="java.util.Map">
         <bind name="bindSearchText" value="'%'+searchText+'%'"/>
