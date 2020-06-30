@@ -1,11 +1,24 @@
+#配置内部Tomcat信息
+server:
+  port: 8080
+  tomcat:
+    uri-encoding: UTF-8
+logging:
+  config: classpath:logback.xml
+jasypt:
+  encryptor:
+    bean: spiritEncryptorBean
+    property:
+      prefix: "ENC@["
+      suffix: "]"
 spring:
   thymeleaf:
     prefix: classpath:/templates/
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: ${DB_URL:jdbc:mysql://localhost:3306/springbootDB?characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai}
+    url: ${DB_URL:jdbc:mysql://localhost:3306/demo?characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai}
     username: ${DB_USERNAME:root}
-    password: ${DB_PWD:mysql}
+    password: ${DB_PASSWORD:ENC@[EEkTo2+j70ZeodkyHyTYxA==]}
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       #初始化大小
@@ -85,10 +98,3 @@ mybatis:
   configuration:
     # 开启驼峰uName自动映射到u_name
     map-underscore-to-camel-case: true
-#配置内部Tomcat信息
-server:
-    port: 8080
-    tomcat:
-      uri-encoding: UTF-8
-logging:
-  config: classpath:logback.xml
