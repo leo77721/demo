@@ -59,7 +59,8 @@ public class JWTFilter implements Filter{
 
         Claims claims = JWTUtils.parseJWT(token);
         if(claims != null){
-            claims.get("user");
+            String user = claims.get("userName").toString();
+
             Date exp = claims.getExpiration();
             Date now = new Date();
             if(exp.getTime() > now.getTime()){

@@ -31,8 +31,8 @@ public class JWTUtils {
         Date now = new Date();
         // expire time
         Calendar nowTime = Calendar.getInstance();
-        //有10天有效期
-        nowTime.add(Calendar.HOUR, 10);
+        //有效期
+        nowTime.add(Calendar.HOUR, 1);
         Date expiresDate = nowTime.getTime();
         // 进行加密用的秘钥
         byte[] apiKeySecretBytes = DatatypeConverter

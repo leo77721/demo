@@ -17,4 +17,6 @@ public interface IUserService {
     public User updateById(Map<String, String> params);
 
     public BaseRestResult deleteById(Integer id);
+
+    public User getUserByRedis(String key);
 }

@@ -8,6 +8,8 @@ public class User implements Serializable {
 
     private String uName;
 
+    private String password;
+
     private Integer uAge;
 
     private Boolean state;
@@ -60,5 +62,13 @@ public class User implements Serializable {
 
     public void setState(Boolean state) {
         this.state = state;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

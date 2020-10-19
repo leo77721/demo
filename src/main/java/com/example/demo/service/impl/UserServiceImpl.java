@@ -9,7 +9,6 @@ import com.example.demo.utils.RedisUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -28,22 +27,22 @@ public class UserServiceImpl implements IUserService {
 
     private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     @Autowired
-    private RedisUtils redisUtils ;
+    private RedisUtils redisUtils;
     @Resource
     private UserMapper mapper;
 
     @Override
-    @Cacheable(value = "user-data",key = "searchResult",unless="#result == null || #result.size() == 0")
-    public List<User> list(Map<String, String> params){
+    @Cacheable(value = "user-data", key = "searchResult", unless = "#result == null || #result.size() == 0")
+    public List<User> list(Map<String, String> params) {
         return mapper.queryUsers(params);
     }
 
     @Override
-    @Cacheable(value = "user-data",key = "'id_'+#id",unless = "#result == null ")
+    @Cacheable(value = "user-data", key = "'id_'+#id", unless = "#result == null ")
     public User findById(Integer id) {
         Map map = new HashMap();
-        map.put("id",id);
-        map.put("state",true);
+        map.put("id", id);
+        map.put("state", true);
         return mapper.findUserById(map);
     }
 
@@ -58,9 +57,9 @@ public class UserServiceImpl implements IUserService {
         mapper.save(user);
 
         RedisPushObjThread thread = RedisPushObjThread.getInstance();
-        Map<String,Object> map = new HashMap<>();
-        map.put("t1","test1");
-        map.put("t2","test2");
+        Map<String, Object> map = new HashMap<>();
+        map.put("t1", "test1");
+        map.put("t2", "test2");
         try {
             thread.addToTq(map);
             logger.info("queue start................");
@@ -92,5 +91,27 @@ public class UserServiceImpl implements IUserService {
         } else {
             return new BaseRestResult(1, "fail");
         }
+    }
+    /**
+     * 缓存击穿，同步块 + 校验
+     * 第一种方式
+     * 缺点 阻塞其他线程
+     *
+     * 其他方式 互斥锁   redis.setnx()
+     */
+    public static volatile Object lockObj = new Object();
+    @Override
+    public User getUserByRedis(String key) {
+        User value = (User) redisUtils.get("user-data::id_" + key);
+        if (value == null) {
+            synchronized (lockObj) {
+                value = (User) redisUtils.get("user-data::id_" + key);
+                if (value == null) {
+                    value = this.findById(Integer.parseInt(key));
+                    redisUtils.set("user-data::id_" + key, value, 1000);
+                }
+            }
+        }
+        return value;
     }
 }

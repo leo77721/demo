@@ -6,31 +6,31 @@
 <mapper namespace="com.example.demo.dao.UserMapper">
 
     <resultMap id="baseResultMap" type="com.example.demo.bean.User">
-        <id column="user_id" property="uId" jdbcType="INTEGER"></id>
-        <result column="user_name" property="uName" jdbcType="VARCHAR"></result>
-        <result column="user_age" property="uAge" jdbcType="VARCHAR"></result>
+        <id column="id" property="uId" jdbcType="INTEGER"></id>
+        <result column="name" property="uName" jdbcType="VARCHAR"></result>
+        <result column="age" property="uAge" jdbcType="VARCHAR"></result>
         <result column="state" property="state" jdbcType="BOOLEAN"></result>
     </resultMap>
 
     <sql id="baseColumnList">
-        user_id,user_name,user_age
+        id,name,age
     </sql>
     <insert id="save" parameterType="com.example.demo.bean.User" useGeneratedKeys="true" keyProperty="uId">
-        insert into user (user_name,user_age,state)
+        insert into user (name,age,state)
         values (#{uName,jdbcType=VARCHAR},
         #{uAge,jdbcType=INTEGER},
         #{state,jdbcType=BOOLEAN})
     </insert>
     <update id="updateById" parameterType="com.example.demo.bean.User">
         update user
-        set user_name = #{uName,jdbcType=VARCHAR},
-            user_age = #{uAge,jdbcType=INTEGER},
+        set name = #{uName,jdbcType=VARCHAR},
+            age = #{uAge,jdbcType=INTEGER},
             state = #{state,jdbcType=BOOLEAN}
-        where user_id = #{uId,jdbcType=INTEGER}
+        where id = #{uId,jdbcType=INTEGER}
     </update>
     <delete id="deleteById" parameterType="java.lang.Integer">
         delete from user
-        where user_id = #{uId,jdbcType=INTEGER}
+        where id = #{uId,jdbcType=INTEGER}
     </delete>
     <select id="findUserById" parameterType="java.util.Map" resultMap="baseResultMap">
         select
@@ -38,7 +38,7 @@
         from user
         <where>
             <if test="id != null and id != '' ">
-                and user_id = #{id,jdbcType=INTEGER}
+                and id = #{id,jdbcType=INTEGER}
             </if>
             <if test=" state != null">
                 and state = #{state,jdbcType=BOOLEAN}
@@ -51,7 +51,7 @@
         <include refid="baseColumnList"></include>
         from user
         <if test="searchText!=null and searchText != ''">
-            where user_name like #{bindSearchText,jdbcType=VARCHAR}
+            where name like #{bindSearchText,jdbcType=VARCHAR}
         </if>
     </select>
 </mapper>

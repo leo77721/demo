@@ -80,4 +80,12 @@ public class UserController {
         return userService.updateById(params);
     }
 
+    @RequestMapping("/getUserByRedis")
+    @ResponseBody
+    public User getUserByRedis(@RequestBody Map<String, String> params) {
+        String id = params.get("id");
+        User user = userService.getUserByRedis(id);
+        return user;
+    }
+
 }
