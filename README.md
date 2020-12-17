@@ -8,3 +8,4 @@ myBatis
 Redis
 CORS
 lockback
+queue
