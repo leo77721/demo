@@ -29,7 +29,7 @@ public class RedisTest {
     @Test
     public void get() {
         String value = (String) redisUtils.get("redis_key");
-        //test
+        //test11111
         System.out.println(value + "===========");
     }
 
