@@ -128,13 +128,6 @@
             <version>1.4</version>
         </dependency>
 		<dependency>
-			<groupId>fakepath</groupId>
-			<artifactId>OpenDataSdk</artifactId>
-			<version>1.0.1</version>
-			<classifier>jdk1.8</classifier>
-			<type>jar</type>
-		</dependency>
-		<dependency>
 			<groupId>org.yaml</groupId>
 			<artifactId>snakeyaml</artifactId>
 			<version>1.26</version>
@@ -170,11 +163,26 @@
 			<artifactId>springdoc-openapi-webmvc-core</artifactId>
 			<version>1.4.8</version>
 		</dependency>
+		<!-- rabbitMQ -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
 <!--		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-security</artifactId>
 			<version>1.4.8</version>
 		</dependency>-->
+		<dependency>
+			<groupId>org.xhtmlrenderer</groupId>
+			<artifactId>flying-saucer-pdf-itext5</artifactId>
+			<version>9.1.18</version>
+		</dependency>
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>2.3.27-incubating</version>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>

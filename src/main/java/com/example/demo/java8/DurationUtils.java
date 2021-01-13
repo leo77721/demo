@@ -7,7 +7,9 @@
  */
 package com.example.demo.java8;
 
+import java.text.SimpleDateFormat;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -16,6 +18,26 @@ import java.util.Date;
  */
 public class DurationUtils {
     public static void main(String[] args) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        String timeStr = "2017-10-03 10:15:30".substring(0,10);
+
+        Date date2 =  new Date();
+        long long1 = date2.getTime();
+        long long2 = date2.toInstant().toEpochMilli();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+
+
+        String dateString = sdf.format(date2);
+        LocalDateTime localDateTime = LocalDateTime.parse(dateString, formatter);
+
+        long long3 = localDateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli();
+
+
+
+
 
         LocalDate startDate = LocalDate.of(2015, 2, 20);
         LocalDate endDate = LocalDate.of(2017, 1, 15);
@@ -26,6 +48,7 @@ public class DurationUtils {
         Instant end = Instant.parse("2017-10-03T10:16:30.00Z");
 
         Instant instant = new Date().toInstant();
+
         Duration duration = Duration.between(start, end);
 
         long sec = duration.getSeconds();

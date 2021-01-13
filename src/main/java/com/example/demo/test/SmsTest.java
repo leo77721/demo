@@ -7,7 +7,6 @@
  */
 package com.example.demo.test;
 
-import com.opendata.api.ODPRequest;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.SimpleDateFormat;
@@ -29,7 +28,7 @@ public class SmsTest {
         String smsPassword = "llqfo93ks";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String timestamp = sdf.format( new Date());
-        String message = new ODPRequest(smsUrl, smsAppsecret)
+       /* String message = new ODPRequest(smsUrl, smsAppsecret)
                 // 系统参数
                 .addTextSysPara("Method", smsMethod)
                 .addTextSysPara("AccessToken", smsAccessToken)
@@ -43,7 +42,7 @@ public class SmsTest {
                 .addTextAppPara("msg", "content").post();
         status = isSuccess(message) ? 1 : -1;
 
-        System.out.println(status);
+        System.out.println(status);*/
     }
 
     private static boolean isSuccess(String response) {

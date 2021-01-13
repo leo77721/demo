@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import ch.qos.logback.core.util.FileUtil;
 import com.example.demo.bean.User;
 import com.example.demo.dao.UserMapper;
 import com.example.demo.service.IUserService;
@@ -85,6 +86,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     @CacheEvict(value = "user-data", key = "'id_'+#id")
     public BaseRestResult deleteById(Integer id) {
+        //FileUtil.class.getClassLoader().getResource("yourfile.txt").getPath();
         int i = mapper.deleteById(id);
         if (i > 0) {
             return new BaseRestResult(0, "success");
