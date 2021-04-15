@@ -18,4 +18,13 @@ public interface UserMapper {
     int updateById(User user);
 
     int deleteById(Integer id);
+
+    void createTable(Map<String,Object> params);
+
+    int existTable(Map<String,Object> params);
+
+    int saveSplitTable(Map<String,Object> params);
+
+    List<User> findUserByParam(Map<String,Object> params);
+
 }

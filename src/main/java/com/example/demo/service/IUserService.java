@@ -8,15 +8,19 @@ import java.util.Map;
 
 public interface IUserService {
 
-    public List<User> list(Map<String, String> params);
+    List<User> list(Map<String, String> params);
 
-    public User findById(Integer id);
+    User findById(Integer id);
 
-    public User save(Map<String, String> params);
+    User save(Map<String, String> params);
 
-    public User updateById(Map<String, String> params);
+    User updateById(Map<String, String> params);
 
-    public BaseRestResult deleteById(Integer id);
+    BaseRestResult deleteById(Integer id);
 
-    public User getUserByRedis(String key);
+    User getUserByRedis(String key);
+
+    void saveSplitTable(Map<String, String> params) throws Exception;
+
+    List<User> findUserByParam(Map<String, String> params) throws Exception;
 }
