@@ -1,12 +1,13 @@
 package com.example.demo.service.impl;
 
-import ch.qos.logback.core.util.FileUtil;
 import com.example.demo.bean.User;
 import com.example.demo.dao.UserMapper;
 import com.example.demo.service.IUserService;
 import com.example.demo.thread.RedisPushObjThread;
 import com.example.demo.utils.BaseRestResult;
+import com.example.demo.utils.DateUtils;
 import com.example.demo.utils.RedisUtils;
+import com.example.demo.utils.SnowIdUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +29,8 @@ import java.util.Map;
 public class UserServiceImpl implements IUserService {
 
     private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
+    private static Map<String,Boolean> splitTableExistMap = new HashMap();
     @Autowired
     private RedisUtils redisUtils;
     @Resource
@@ -115,5 +119,50 @@ public class UserServiceImpl implements IUserService {
             }
         }
         return value;
+    }
+
+
+    public void saveSplitTable(Map<String, String> params) throws Exception {
+        String tableName = "user_" + this.getTableName(new Date());
+        Boolean flag = splitTableExistMap.get(tableName);
+        if(flag == null ){
+            this.createTable(tableName);
+            splitTableExistMap.put(tableName,Boolean.TRUE) ;
+        }
+        Map<String, Object> paramsMap = new HashMap<>();
+        paramsMap.put("tableName", tableName);
+        paramsMap.put("id", SnowIdUtils.uniqueLong());
+        paramsMap.put("name",params.get("name"));
+        paramsMap.put("age",Integer.parseInt(params.get("age")));
+        paramsMap.put("state",Boolean.parseBoolean(params.get("state")));
+        mapper.saveSplitTable(paramsMap);
+    }
+
+    private boolean existTable(String tableName) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("tableName", tableName);
+        int i = mapper.existTable(paramMap);
+        return i > 0;
+    }
+
+    private void createTable(String tableName) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("tableName", tableName);
+        mapper.createTable(map);
+    }
+
+    private String getTableName(Date date) throws Exception {
+        Date thisWeekMondayDate = DateUtils.getWeekStart(date);
+        return DateUtils.format(thisWeekMondayDate,DateUtils.DATE_FORMAT_YMD);
+    }
+
+    public List<User> findUserByParam(Map<String, String> params) throws Exception {
+        Map<String, Object> paramsMap = new HashMap<>();
+        paramsMap.put("tableName", "user_" + this.getTableName(new Date()));
+        paramsMap.put("id", params.get("id"));
+        paramsMap.put("name",params.get("name"));
+        paramsMap.put("age",Integer.parseInt(params.get("age")));
+        paramsMap.put("state",Boolean.parseBoolean(params.get("state")));
+        return mapper.findUserByParam(paramsMap);
     }
 }

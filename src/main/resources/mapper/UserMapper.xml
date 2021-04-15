@@ -15,7 +15,7 @@
     <sql id="baseColumnList">
         id,name,age
     </sql>
-    <insert id="save" parameterType="com.example.demo.bean.User" useGeneratedKeys="true" keyProperty="uId">
+    <insert id="save" parameterType="com.example.demo.bean.User" useGeneratedKeys="true" keyProperty="id">
         insert into user (name,age,state)
         values (#{uName,jdbcType=VARCHAR},
         #{uAge,jdbcType=INTEGER},
@@ -53,5 +53,34 @@
         <if test="searchText!=null and searchText != ''">
             where name like #{bindSearchText,jdbcType=VARCHAR}
         </if>
+    </select>
+
+    <insert id="createTable" parameterType="java.util.Map">
+        CREATE TABLE IF NOT EXISTS ${tableName} LIKE user
+    </insert>
+
+    <select id="existTable" parameterType="java.util.Map" resultType="Integer">
+        SELECT count(1) FROM information_schema.TABLES WHERE table_name = #{tableName};
+    </select>
+    <insert id="saveSplitTable" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="id">
+        insert into ${tableName} (id,name,age,state)
+        values (#{id,jdbcType=VARCHAR},
+                #{name,jdbcType=VARCHAR},
+                #{age,jdbcType=INTEGER},
+                #{state,jdbcType=BOOLEAN})
+    </insert>
+
+    <select id="findUserByParam" parameterType="java.util.Map" resultMap="baseResultMap">
+        select
+        <include refid="baseColumnList"></include>
+        from ${tableName}
+        <where>
+            <if test="id != null and id != '' ">
+                and id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test=" state != null">
+                and state = #{state,jdbcType=BOOLEAN}
+            </if>
+        </where>
     </select>
 </mapper>

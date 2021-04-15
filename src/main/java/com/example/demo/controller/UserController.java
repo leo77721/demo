@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -88,4 +89,27 @@ public class UserController {
         return user;
     }
 
+
+    @RequestMapping("/saveSplitTable")
+    @ResponseBody
+    public BaseRestResult saveSplitTable(@RequestBody Map<String, String> params) {
+        try {
+            userService.saveSplitTable(params);
+        } catch (Exception e) {
+            return  new BaseRestResult(0,"失敗");
+        }
+        return  new BaseRestResult(1,"成功");
+    }
+
+    @RequestMapping("/findUserByParam")
+    @ResponseBody
+    public List<User> findUserByParam(@RequestBody Map<String, String> params) {
+        List<User> list = new ArrayList<>();
+        try {
+            list = userService.findUserByParam(params);
+        } catch (Exception e) {
+            return  list ;
+        }
+        return  list;
+    }
 }
