@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.task.InitDataConfig;
 import com.example.demo.thread.SystemThreadRunner;
 import com.example.demo.utils.AESUtils;
 import org.springframework.boot.SpringApplication;
@@ -14,6 +15,7 @@ public class DemoApplication {
         AESUtils.checkLicense();
         SpringApplication.run(DemoApplication.class, args);
         SystemThreadRunner.run();
+        InitDataConfig.setTableNameMap();
     }
 
 }

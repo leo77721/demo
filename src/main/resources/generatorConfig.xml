@@ -42,7 +42,7 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.zhj.cloud.web.dataaccess.dao"
                              targetProject="${javaClientGenerator.targetProject}"/>
         <!--生成全部表tableName设为%-->
-        <table tableName="ljszy_facility_serial_number" >
+        <table tableName="ljszy_container_type_config" >
             <!-- 注意表中的主键ID！！！！domainObjectName="ADao"！！ -->
             <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
         </table>

@@ -54,7 +54,10 @@
             where name like #{bindSearchText,jdbcType=VARCHAR}
         </if>
     </select>
-
+    <select id="queryTableName" parameterType="java.util.Map" resultMap="baseResultMap">
+        <bind name="tableName" value="'%' + tableName + '%'"/>
+        SELECT table_name FROM information_schema.TABLES WHERE table_name like #{tableName};
+    </select>
     <insert id="createTable" parameterType="java.util.Map">
         CREATE TABLE IF NOT EXISTS ${tableName} LIKE user
     </insert>

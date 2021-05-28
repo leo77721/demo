@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.bean.User;
 import com.example.demo.dao.UserMapper;
 import com.example.demo.service.IUserService;
+import com.example.demo.task.InitDataConfig;
 import com.example.demo.thread.RedisPushObjThread;
 import com.example.demo.utils.BaseRestResult;
 import com.example.demo.utils.DateUtils;
@@ -124,10 +125,12 @@ public class UserServiceImpl implements IUserService {
 
     public void saveSplitTable(Map<String, String> params) throws Exception {
         String tableName = "user_" + this.getTableName(new Date());
-        Boolean flag = splitTableExistMap.get(tableName);
+        Map<String, Boolean> map = InitDataConfig.TABLE_NAME_MAP;
+        Boolean f = map.get("user_20210511");
+        Boolean flag = map.get(tableName);
         if(flag == null ){
             this.createTable(tableName);
-            splitTableExistMap.put(tableName,Boolean.TRUE) ;
+            map.put(tableName,Boolean.TRUE) ;
         }
         Map<String, Object> paramsMap = new HashMap<>();
         paramsMap.put("tableName", tableName);

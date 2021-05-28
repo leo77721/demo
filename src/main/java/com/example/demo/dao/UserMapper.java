@@ -25,6 +25,8 @@ public interface UserMapper {
 
     int saveSplitTable(Map<String,Object> params);
 
+    List<User> queryTableName(Map<String,Object> params);
+
     List<User> findUserByParam(Map<String,Object> params);
 
 }

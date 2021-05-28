@@ -14,6 +14,8 @@ public class User implements Serializable {
 
     private Boolean state;
 
+    private String tableName ;
+
     /**
      * @return the uId
      */
@@ -70,5 +72,13 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 }
